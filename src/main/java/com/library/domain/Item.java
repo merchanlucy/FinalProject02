@@ -31,7 +31,7 @@ public abstract class Item {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Item item = (Item) o;
-        return Objects.equals(id, item.id) && Objects.equals(title, item.title) && Objects.equals(status, item.status);
+        return Objects.equals(id, item.id);
     }
 
     @Override
