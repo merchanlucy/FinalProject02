@@ -23,8 +23,20 @@ public abstract class Item {
         this.status = ItemStatus.IN_STORE;
     }
 
+    /**
+     * checks if an item is available
+     * @return true if the item is in store, false if item is not in store
+     */
     public boolean isItemAvailable() {
         return status == ItemStatus.IN_STORE;
+    }
+
+    /**
+     * marks an item as lost
+     * @return true if item is marked as lost, false
+     */
+    public void markAsLost() {
+        this.status = ItemStatus.LOST;
     }
 
     @Override
