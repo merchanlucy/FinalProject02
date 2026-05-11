@@ -2,10 +2,7 @@ package com.library.domain;
 
 import com.library.exception.BorrowLimitExceededException;
 import com.library.exception.ItemNotBorrowedException;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +12,7 @@ import java.util.Objects;
 @Setter
 @EqualsAndHashCode
 @ToString
+@AllArgsConstructor
 public abstract class User {
     private String id;
     private String name;
