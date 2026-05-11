@@ -15,9 +15,10 @@ public abstract class Item {
     private String id;
     private String title;
     private ItemStatus status;
+    private static int nextId = 1;
 
-    public Item(String id, String title) {
-        this.id = id;
+    public Item(String title) {
+        this.id = String.format("%04d", nextId++);
         this.title = title;
         this.status = ItemStatus.IN_STORE;
     }
