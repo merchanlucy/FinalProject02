@@ -13,6 +13,7 @@ public class DVD extends Item {
 
     public DVD(String title, String director, int durationMinutes) {
         super(title);
+        id = "D" + id;
         this.director = director;
         this.durationMinutes = durationMinutes;
     }

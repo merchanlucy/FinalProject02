@@ -5,12 +5,13 @@ import com.library.util.Constants;
 import java.util.List;
 
 public class Teacher extends User {
-    public Teacher(String id, String name, List<Item> borrowedItems) {
-        super(id, name, borrowedItems);
-    }
-
     public Teacher(String name) {
         super(name);
+        id = "T" + id;
+    }
+
+    public Teacher(String id, String name, List<Item> borrowedItems) {
+        super(id, name, borrowedItems);
     }
 
     @Override

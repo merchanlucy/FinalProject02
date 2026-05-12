@@ -9,12 +9,13 @@ import java.util.List;
 import java.util.Map;
 
 public class Admin extends User implements Reportable {
-    public Admin(String id, String name, List<Item> borrowedItems) {
-        super(id, name, borrowedItems);
-    }
-
     public Admin(String name) {
         super(name);
+        id = "A" + id;
+    }
+
+    public Admin(String id, String name, List<Item> borrowedItems) {
+        super(id, name, borrowedItems);
     }
 
     @Override

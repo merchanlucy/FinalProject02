@@ -17,7 +17,7 @@ public class Book extends Item {
 
     public Book(String title, String isbn, String author, String genre) {
         super(title);
-
+        id = "B" + id;
         if (!Validation.isValidISBN(isbn)) {
             throw new InvalidISBNException("Invalid ISBN. ISBN must contain 13 digits.");
         }

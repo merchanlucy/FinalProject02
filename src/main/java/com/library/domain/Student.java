@@ -1,19 +1,13 @@
 package com.library.domain;
 
 import com.library.util.Constants;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 
-@Getter
-@Setter
-@EqualsAndHashCode(callSuper = true)
 public class Student extends User {
     public Student(String name) {
         super(name);
+        id = "S" + id;
     }
 
     public Student(String id, String name, List<Item> borrowedItems) {

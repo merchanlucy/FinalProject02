@@ -13,6 +13,7 @@ public class Magazine extends Item {
 
     public Magazine(String title, int issueNumber, String publisher) {
         super(title);
+        id = "M" + id;
         this.issueNumber = issueNumber;
         this.publisher = publisher;
     }
