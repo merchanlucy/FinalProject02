@@ -6,22 +6,21 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Getter
-@Setter
 @EqualsAndHashCode
 @ToString
 @AllArgsConstructor
 public abstract class User {
-    private String id;
-    private String name;
-    private List<Item> borrowedItems = new ArrayList<>();
-    private static int nextId = 1;
+    protected String id;
+    @Setter protected String name;
+    protected List<Item> borrowedItems;
+    @Setter private static int nextId = 1;
 
     public User(String name) {
         this.id = String.format("%04d", nextId++);
         this.name = name;
+        this.borrowedItems = new ArrayList<>();
     }
 
     /**

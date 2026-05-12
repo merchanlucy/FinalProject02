@@ -7,15 +7,14 @@ import lombok.ToString;
 
 import java.util.Objects;
 
-@Setter
 @Getter
 @ToString
 @AllArgsConstructor
 public abstract class Item {
-    private String id;
-    private String title;
-    private ItemStatus status;
-    private static int nextId = 1;
+    protected String id;
+    @Setter protected String title;
+    @Setter protected ItemStatus status;
+    @Setter private static int nextId = 1;
 
     public Item(String title) {
         this.id = String.format("%04d", nextId++);
