@@ -15,6 +15,7 @@ public class CsvManager {
 
     /**
      * Backs up all items into the items CSV file.
+     * @param items list of items to be backed up
      */
     public void backupItems(List<Item> items) {
         File file = new File(Constants.ITEMS_CSV_PATH);
@@ -71,8 +72,9 @@ public class CsvManager {
 
     /**
      * Load all items from a CSV file
+     * @return a list of items from csv file
      */
-    public void loadItems() {
+    public List<Item> loadItems() {
         File file = new File(Constants.ITEMS_CSV_PATH);
         List<Item> items = new ArrayList<>();
 
@@ -123,6 +125,84 @@ public class CsvManager {
         } catch (FileNotFoundException e) {
             System.out.println("The item data file does not exist, initialize the item list");
         }
+        return items;
+    }
+
+    /**
+     * Backs up all users into the users CSV file.
+     * @param users list of users to be backed up
+     */
+    public void backupUsers(List<User> users) {
+        File file = new File(Constants.USERS_CSV_PATH);
+
+        try (FileWriter fileWriter = new FileWriter(file, true)) {
+            fileWriter.write("id,name,borrowedItems\n");
+
+            for (User user : users) {
+                fileWriter.write(String.format("%s,%s", user.getId(), user.getName()));
+
+                for (Item item : user.getBorrowedItems()) {
+                    fileWriter.write("," + item.getId());
+                }
+
+                fileWriter.write("\n");
+            }
+
+        } catch (IOException e) {
+            System.out.println("Writing user data file failed.");
+        }
+    }
+
+    /**
+     * load all users into the system
+     * @param items list of items in the system
+     * @return a list of users
+     */
+    public List<User> loadUsers(List<Item> items) {
+        File file = new File(Constants.USERS_CSV_PATH);
+        List<User> users = new ArrayList<>();
+
+        try (Scanner scanner = new Scanner(file)) {
+            scanner.nextLine();
+
+            while (scanner.hasNext()) {
+                String line = scanner.nextLine();
+                String[] data = line.split(",");
+
+                String id = data[0];
+                String name = data[1];
+
+                List<Item> borrowedItems = new ArrayList<>();
+
+                for (int i = 2; i < data.length; i++) {
+                    String borrowedItemId = data[i];
+
+                    for (Item item : items) {
+                        if (item.getId().equals(borrowedItemId)) {
+                            borrowedItems.add(item);
+                            item.setStatus(ItemStatus.BORROWED);
+                        }
+                    }
+                }
+
+                User user = switch (id.charAt(0)) {
+                    case 'S' -> new Student(id, name, borrowedItems);
+                    case 'T' -> new Teacher(id, name, borrowedItems);
+                    case 'A' -> new Admin(id, name, borrowedItems);
+                    default -> null;
+                };
+
+                if (user != null) {
+                    users.add(user);
+                }
+            }
+
+            User.setNextId(users.size() + 1);
+
+        } catch (FileNotFoundException e) {
+            System.out.println("The users file does not exist.");
+        }
+        return users;
     }
 }
 
