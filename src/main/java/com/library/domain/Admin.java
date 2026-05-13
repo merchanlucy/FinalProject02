@@ -1,6 +1,7 @@
 package com.library.domain;
 
 import com.library.interfaces.Reportable;
+import com.library.service.CsvManager;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -22,6 +23,18 @@ public class Admin extends User implements Reportable {
     public boolean canBorrow(Item item) {
         return false;
     }
+
+    /**
+     * Allows an admin to back up the current library data.
+     * @param csvManager the CSV manager used to write files
+     * @param items the current list of items
+     * @param users the current list of users
+     */
+    public void backupData(CsvManager csvManager, List<Item> items, List<User> users) {
+        csvManager.backupItems(items);
+        csvManager.backupUsers(users);
+    }
+
 
     @Override
     public Map<ItemStatus, List<Item>> generateReport(List<Item> items) {
