@@ -20,7 +20,7 @@ public class CsvManager {
     public void backupItems(List<Item> items) {
         File file = new File(Constants.ITEMS_CSV_PATH);
 
-        try (FileWriter fileWriter = new FileWriter(file, true)) {
+        try (FileWriter fileWriter = new FileWriter(file)) {
             if (!file.exists()) {
                 fileWriter.write("id,status,info1,info2,info3,info4\n");
             }
@@ -32,8 +32,8 @@ public class CsvManager {
                     fileWriter.write(String.format(
                             "%s,%s,%s,%s,%s,%s\n",
                             book.getId(),
-                            book.getStatus(),
                             book.getIsbn(),
+                            book.getStatus(),
                             book.getTitle(),
                             book.getAuthor(),
                             book.getGenre()
@@ -45,8 +45,8 @@ public class CsvManager {
                     fileWriter.write(String.format(
                             "%s,%s,%s,%s,%d\n",
                             dvd.getId(),
-                            dvd.getStatus(),
                             dvd.getTitle(),
+                            dvd.getStatus(),
                             dvd.getDirector(),
                             dvd.getDurationMinutes()
                     ));
@@ -57,8 +57,8 @@ public class CsvManager {
                     fileWriter.write(String.format(
                             "%s,%s,%s,%d,%s\n",
                             magazine.getId(),
-                            magazine.getStatus(),
                             magazine.getTitle(),
+                            magazine.getStatus(),
                             magazine.getIssueNumber(),
                             magazine.getPublisher()
                     ));
@@ -135,8 +135,10 @@ public class CsvManager {
     public void backupUsers(List<User> users) {
         File file = new File(Constants.USERS_CSV_PATH);
 
-        try (FileWriter fileWriter = new FileWriter(file, true)) {
-            fileWriter.write("id,name,borrowedItems\n");
+        try (FileWriter fileWriter = new FileWriter(file)) {
+            if (!file.exists()) {
+                fileWriter.write("id,name,borrowedItems\n");
+            }
 
             for (User user : users) {
                 fileWriter.write(String.format("%s,%s", user.getId(), user.getName()));
@@ -144,7 +146,6 @@ public class CsvManager {
                 for (Item item : user.getBorrowedItems()) {
                     fileWriter.write("," + item.getId());
                 }
-
                 fileWriter.write("\n");
             }
 
