@@ -64,7 +64,6 @@ public class Library {
 
     /**
      * Allows a user to borrow an item.
-     *
      * @param user the user borrowing the item
      * @param item the item being borrowed
      */
