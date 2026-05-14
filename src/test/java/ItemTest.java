@@ -1,6 +1,7 @@
 import com.library.domain.Book;
 import com.library.domain.ItemStatus;
 import com.library.domain.Student;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +32,7 @@ public class ItemTest {
 
         student.borrowItem(book);
 
-        assertEquals(ItemStatus.BORROWED, book.getStatus());
+        Assertions.assertEquals(ItemStatus.BORROWED, book.getStatus());
     }
 
     @Test
@@ -42,7 +43,7 @@ public class ItemTest {
 
         student.borrowItem(book);
 
-        assertFalse(book.isItemAvailable());
+        Assertions.assertFalse(book.isItemAvailable());
     }
 
     @Test
@@ -53,7 +54,7 @@ public class ItemTest {
         student.borrowItem(book);
         student.returnItem(book);
 
-        assertEquals(ItemStatus.IN_STORE, book.getStatus());
+        Assertions.assertEquals(ItemStatus.IN_STORE, book.getStatus());
     }
 
     @Test
@@ -62,6 +63,6 @@ public class ItemTest {
         Book book = new Book("Frankenstein", "1234567891234", "Mary Shelley", "Science Fiction");
         book.markAsLost();
 
-        assertEquals(ItemStatus.LOST, book.getStatus());
+        Assertions.assertEquals(ItemStatus.LOST, book.getStatus());
     }
 }
