@@ -21,9 +21,7 @@ public class CsvManager {
         File file = new File(Constants.ITEMS_CSV_PATH);
 
         try (FileWriter fileWriter = new FileWriter(file)) {
-            if (!file.exists()) {
-                fileWriter.write("id,status,info1,info2,info3,info4\n");
-            }
+            fileWriter.write("id,title,status,info2,info3,info4\n");
 
             for (Item item : items) {
                 if (item instanceof Book) {
@@ -136,9 +134,7 @@ public class CsvManager {
         File file = new File(Constants.USERS_CSV_PATH);
 
         try (FileWriter fileWriter = new FileWriter(file)) {
-            if (!file.exists()) {
-                fileWriter.write("id,name,borrowedItems\n");
-            }
+            fileWriter.write("id,name,borrowedItems\n");
 
             for (User user : users) {
                 fileWriter.write(String.format("%s,%s", user.getId(), user.getName()));
