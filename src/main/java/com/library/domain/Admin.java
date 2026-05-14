@@ -35,7 +35,6 @@ public class Admin extends User implements Reportable {
         csvManager.backupUsers(users);
     }
 
-
     @Override
     public Map<ItemStatus, List<Item>> generateReport(List<Item> items) {
         Map<ItemStatus, List<Item>> report = new HashMap<>();

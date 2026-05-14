@@ -56,7 +56,7 @@ public class Library {
      */
     public void addUser(User user) {
         if (users.contains(user)) {
-            throw new InvalidOperationException(String.format( "%s is already a user of the Library", user.getId()));
+            throw new InvalidOperationException(String.format("%s is already a user of the Library", user.getId()));
         }
         users.add(user);
     }
@@ -136,7 +136,7 @@ public class Library {
         Set<String> titlesAlreadyAdded = new HashSet<>();
 
         return items.stream()
-                .filter(item -> item.getTitle().toLowerCase().contains(title.toLowerCase()))
+                .filter(item -> (item.getTitle().toLowerCase().contains(title.toLowerCase())))
                 .filter(item ->(titlesAlreadyAdded.add(item.getTitle().toLowerCase())))
                 .toList();
     }
