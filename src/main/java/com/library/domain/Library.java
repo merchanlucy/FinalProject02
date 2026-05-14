@@ -8,7 +8,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import static java.util.stream.Collectors.toList;
 
 @Getter
 @ToString
@@ -122,6 +126,41 @@ public class Library {
     public void sortUsersById() {
         users = users.stream()
                 .sorted((user1, user2) -> user1.getId().compareToIgnoreCase(user2.getId()))
+                .toList();
+    }
+
+    /**
+     * searches items with stream
+     * The search is case insensitive and returns only one copy per title.
+     * @param title the title to search for
+     * @return a list of items that contain the title
+     */
+    public List<Item> searchByTitleStream(String title) {
+        Set<String> titlesAlreadyAdded = new HashSet<>();
+
+        return items.stream()
+                .filter(item -> item.getTitle().toLowerCase().contains(title.toLowerCase()))
+                .filter(item ->(titlesAlreadyAdded.add(item.getTitle().toLowerCase())))
+                .toList();
+    }
+
+    /**
+     * Searches books by author using streams.
+     * The search is case-insensitive and returns only one copy per ISBN.
+     *
+     * @param author the author or part of the author name to search for
+     * @return a list of matching books without duplicate ISBNs
+     */
+    public List<Item> searchByAuthorStream(String author) {
+        Set<String> isbnsAlreadyAdded = new HashSet<>();
+        String searchedAuthor = author.toLowerCase();
+
+        return items.stream()
+                .filter(item -> item instanceof Book)
+                .map(item -> (Book) item)
+                .filter(book -> book.getAuthor().toLowerCase().contains(searchedAuthor))
+                .filter(book -> isbnsAlreadyAdded.add(book.getIsbn()))
+                .map(book -> (Item) book)
                 .toList();
     }
 }
