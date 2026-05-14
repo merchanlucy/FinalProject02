@@ -8,14 +8,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @ToString
 @AllArgsConstructor //all args constructor for test
 public class Library {
-
     private List<Item> items;
     private List<User> users;
     private CsvManager csvManager;
@@ -87,5 +85,43 @@ public class Library {
 
         user.returnItem(item);
         item.setStatus(ItemStatus.IN_STORE);
+    }
+
+    /**
+     * Sorts the items by title
+     */
+    public void sortItemsByTitle() {
+        items = items.stream()
+                .sorted((item1, item2) -> item1.getTitle().compareToIgnoreCase(item2.getTitle()))
+                .toList();
+    }
+
+    /**
+     * Sorts the items by ID
+     */
+    public void sortItemsById() {
+        items = items.stream()
+                .sorted((item1, item2) -> item1.getId().compareToIgnoreCase(item2.getId()))
+                .toList();
+    }
+
+    /**
+     * Sorts the users by name
+     */
+    public void sortUsersByName() {
+        users = users.stream()
+                .sorted((user1, user2) -> user1.getName().compareToIgnoreCase(user2.getName()))
+                .toList();
+    }
+
+
+
+    /**
+     * Sorts the users by ID
+     */
+    public void sortUsersById() {
+        users = users.stream()
+                .sorted((user1, user2) -> user1.getId().compareToIgnoreCase(user2.getId()))
+                .toList();
     }
 }
