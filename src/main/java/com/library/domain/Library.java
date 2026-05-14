@@ -1,5 +1,6 @@
 package com.library.domain;
 
+import com.library.exception.BorrowLimitExceededException;
 import com.library.exception.ItemNotAvailableException;
 import com.library.exception.ItemNotBorrowedException;
 import com.library.exception.InvalidOperationException;
@@ -72,7 +73,11 @@ public class Library {
             throw new ItemNotAvailableException(item.getId());
         }
 
-        user.borrowItem(item);
+        if (!user.canBorrow(item)) {
+            throw new BorrowLimitExceededException("This user cannot borrow this item.");
+        }
+
+        user.getBorrowedItems().add(item);
         item.setStatus(ItemStatus.BORROWED);
     }
 
@@ -83,10 +88,10 @@ public class Library {
      */
     public void returnItem(User user, Item item) {
         if (!user.getBorrowedItems().contains(item)) {
-            throw new ItemNotBorrowedException("This user did not borrow item with ID:" + item.getId());
+            throw new ItemNotBorrowedException("This user did not borrow item with ID: " + item.getId());
         }
 
-        user.returnItem(item);
+        user.getBorrowedItems().remove(item);
         item.setStatus(ItemStatus.IN_STORE);
     }
 
