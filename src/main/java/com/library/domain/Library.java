@@ -8,11 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static java.util.stream.Collectors.toList;
 
 @Getter
 @ToString
@@ -118,8 +117,6 @@ public class Library {
                 .toList();
     }
 
-
-
     /**
      * Sorts the users by ID
      */
@@ -130,7 +127,7 @@ public class Library {
     }
 
     /**
-     * searches items with stream
+     * searches items by title with stream
      * The search is case insensitive and returns only one copy per title.
      * @param title the title to search for
      * @return a list of items that contain the title
@@ -146,10 +143,9 @@ public class Library {
 
     /**
      * Searches books by author using streams.
-     * The search is case-insensitive and returns only one copy per ISBN.
-     *
-     * @param author the author or part of the author name to search for
-     * @return a list of matching books without duplicate ISBNs
+     * The search is case insensitive and returns only one copy
+     * @param author the author to search for
+     * @return a list of books containing that author
      */
     public List<Item> searchByAuthorStream(String author) {
         Set<String> isbnsAlreadyAdded = new HashSet<>();
@@ -162,5 +158,68 @@ public class Library {
                 .filter(book -> isbnsAlreadyAdded.add(book.getIsbn()))
                 .map(book -> (Item) book)
                 .toList();
+    }
+
+    /**
+     * searches items by title with recursion
+     * @param title the input title
+     * @return a list of items that match the input title
+     */
+    public List<Item> searchByTitleRecursive(String title) {
+        List<Item> results = new ArrayList<>();
+        searchByTitleRecursive(title, 0, results);
+        return results;
+    }
+
+    /**
+     * Recursive method that checks items inside library
+     * helper method
+     * @param title the input title
+     * @param idx the index of the items list
+     * @param results the list of items that match the input title
+     */
+    private void searchByTitleRecursive(String title, int idx, List<Item> results) {
+        if (idx >= items.size()) {
+            return;
+        }
+        Item item = items.get(idx);
+        if (item.getTitle().toLowerCase().contains(title.toLowerCase())) {
+            results.add(item);
+        }
+
+        searchByTitleRecursive(title, idx + 1, results);
+    }
+
+    /**
+     * Searches books by author using recursion
+     * @param author the author or part of the author name to search for
+     * @return a list of matching books
+     */
+    public List<Item> searchByAuthorRecursive(String author) {
+        List<Item> results = new ArrayList<>();
+        searchByAuthorRecursive(author, 0, results);
+        return results;
+    }
+
+    /**
+     * searches library books by author using recursion, private helper method
+     * @param author the author to search
+     * @param idx the index of the item in the list
+     * @param results the list of books that contain that author
+     */
+    private void searchByAuthorRecursive(String author, int idx, List<Item> results) {
+        if (idx >= items.size()) {
+            return;
+        }
+        Item item = items.get(idx);
+
+        if (item instanceof Book) {
+            Book book = (Book) item;
+            if (book.getAuthor().toLowerCase().contains(author.toLowerCase())) {
+                results.add(book);
+            }
+        }
+
+        searchByAuthorRecursive(author, idx + 1, results);
     }
 }
